@@ -7,8 +7,26 @@ from ttkbootstrap import Style
 
 FORMATOS = ('.jpg', '.jpeg', '.png', '.webp')
 
+image_resolutions = [
+    "50x50",
+    "100x100",
+    "200x200",
+    "320x240",
+    "400x300",
+    "640x480",
+    "800x600",
+    "1024x768",
+    "1280x720",
+    "1366x768",
+    "1600x900",
+    "1920x1080",
+    "2560x1440",
+    "3840x2160",
+    "4096x2160"
+]
 
-def resize_images(input_folderl, output_folder, resulution):
+
+def resize_images(input_folderl: list, output_folder: str, resulution: str) -> None:
     image_done = 0
     resolutions = resulution.split("x")
     input_folders = input_folderl.split("*")
@@ -41,26 +59,7 @@ def resize_images(input_folderl, output_folder, resulution):
                         message=f"{image_done} imagen/es ha/n sido guardada/s en {output_folder}")
 
 
-image_resolutions = [
-    "50x50",
-    "100x100",
-    "200x200",
-    "320x240",
-    "400x300",
-    "640x480",
-    "800x600",
-    "1024x768",
-    "1280x720",
-    "1366x768",
-    "1600x900",
-    "1920x1080",
-    "2560x1440",
-    "3840x2160",
-    "4096x2160"
-]
-
-
-def select_value(camp):
+def select_value(camp: tuple) -> None:
     new_camp = filedialog.askopenfilenames()
     new_camp_int = []
     for new in new_camp:
@@ -69,35 +68,34 @@ def select_value(camp):
     camp.insert(0, new_camp_int)
 
 
-def select_value_directory(camp):
+def select_value_directory(camp: str) -> None:
     new_camp = filedialog.askdirectory()
     camp.delete(0, END)
     camp.insert(0, new_camp)
 
 
-def make_windows():
+def make_windows() -> None:
     windows = Tk()
     windows.title("ReSizeMe")
-    # windows.geometry("100x100")
+    windows.iconbitmap("icono.ico")
     windows.resizable(0, 0)
     frame = tk.Frame(windows, borderwidth=20, border=10)
     frame_path = ttk.Labelframe(frame, text="Origen y Destino")
     frame_resolucion = ttk.Labelframe(frame, text="¿Que resolucion quieres?")
-    origen = ttk.Entry(frame_path)
-    destino = ttk.Entry(frame_path)
     style = Style(theme="flatly")
     style.configure("TButton")
     style.theme_use("superhero")
-    resolution_value = tk.StringVar()
-    resolution = ttk.Combobox(
-        frame_resolucion, values=image_resolutions, cursor="hand2")
-    resolution.grid(row=0, column=0)
+    origen = ttk.Entry(frame_path)
+    destino = ttk.Entry(frame_path)
     ttk.Button(frame_path, text="Imagen/es Origen", padding=(15, 0, 15, 0), cursor="hand2",
                command=lambda: select_value(origen)).grid(row=1, column=0)
     ttk.Button(frame_path, text="Carpeta Destino", padding=(15, 0, 15, 0), cursor="hand2",
                command=lambda: select_value_directory(destino)).grid(row=3, column=0)
     origen.grid(row=0, column=0)
     destino.grid(row=2, column=0)
+    resolution = ttk.Combobox(
+        frame_resolucion, values=image_resolutions, cursor="hand2")
+    resolution.grid(row=0, column=0)
     boton = ttk.Button(frame_resolucion, text="Ajustar", padding=(50, 0, 50, 0), command=lambda: resize_images(
         origen.get(), destino.get(), resolution.get()), cursor="hand2")
     frame.pack()
