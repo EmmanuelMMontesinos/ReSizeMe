@@ -75,9 +75,10 @@ def select_value_directory(camp: str) -> None:
 
 
 def make_windows() -> None:
+    print("Programado por @emmanuelmmontesinos")
     windows = Tk()
     windows.title("ReSizeMe")
-    windows.iconbitmap("icono.ico")
+    windows.wm_iconbitmap("icono.ico")
     windows.resizable(0, 0)
     frame = tk.Frame(windows, borderwidth=20, border=10)
     frame_path = ttk.Labelframe(frame, text="Origen y Destino")
