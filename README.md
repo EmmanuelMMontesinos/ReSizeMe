@@ -8,7 +8,7 @@ Ya sea uno o miles de archivos, podrás redimensionarlas rápida y fácilmente!
 
 ## Instalación
 
-Para usar ReSizeMe, asegúrate de tener Python instalado en tu sistema. Luego, sigue estos pasos:
+Para usar ReSizeMe:
 
 1. Clona este repositorio o descarga la última Relase.
 2. Ejecuta INSTALL.bat.
