@@ -4,7 +4,7 @@ import tkinter as tk
 from tkinter import Tk, filedialog, ttk, messagebox, END
 from ttkbootstrap import Style
 
-
+# Supported image formats and resolutions
 FORMATOS = ('.jpg', '.jpeg', '.png', '.webp')
 
 image_resolutions = [
@@ -26,7 +26,19 @@ image_resolutions = [
 ]
 
 
-def resize_images(input_folderl: list, output_folder: str, resulution: str) -> None:
+def resize_images(input_folderl: list[str], output_folder: str, resulution: str) -> None:
+    """ Rescale the images according to the parameters given in the tkinder interface.
+
+    :param input_folderl: Paths to file(s) for rescaling
+    :type input_folderl: list[str]
+
+    :param output_folder: Path where to save the rescaled file(s)
+    :type output_folder: str
+
+    :param resulution: Resolution desired by user for rescaling the image(s)
+    :type resulution: str
+
+    """
     image_done = 0
     resolutions = resulution.split("x")
     input_folders = input_folderl.split("*")
@@ -59,7 +71,12 @@ def resize_images(input_folderl: list, output_folder: str, resulution: str) -> N
                         message=f"{image_done} imagen/es ha/n sido guardada/s en {output_folder}")
 
 
-def select_value(camp: tuple) -> None:
+def select_value(camp: tuple[str]) -> None:
+    """ Update source images for rescaling
+
+    :param camp: Images previously selected
+    :type camp: tuple[str]
+    """
     new_camp = filedialog.askopenfilenames()
     new_camp_int = []
     for new in new_camp:
@@ -69,12 +86,18 @@ def select_value(camp: tuple) -> None:
 
 
 def select_value_directory(camp: str) -> None:
+    """ Update the desired directory to store the rescaled images
+
+    :param camp: Path to the previously selected folder
+    :type camp: str
+    """
     new_camp = filedialog.askdirectory()
     camp.delete(0, END)
     camp.insert(0, new_camp)
 
 
 def make_windows() -> None:
+    """ Ui for users"""
     print("Programado por @emmanuelmmontesinos")
     windows = Tk()
     windows.title("ReSizeMe")
