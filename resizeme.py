@@ -51,7 +51,7 @@ def resize_images(input_folderl: list, output_folder: str, resulution: str) -> N
                 output_path = os.path.join(output_folder, filename)
                 resized_image.save(output_path)
                 image_done += 1
-                print(f"Imagen redimensionada: {output_path}")
+                print(f"✔️ {filename} redimensionada\n")
             elif not input_folder.endswith(FORMATOS):
                 messagebox.showerror(
                     title="Error de Formato", message=f"{input_folder} no es un formato soportado")
