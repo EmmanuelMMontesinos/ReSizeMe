@@ -9,8 +9,10 @@ echo -------------------------------------------
 echo Instalando Pip
 python -m ensurepip --upgrade || call :Error "Error al instalar Pip"
 
+echo -------------------------------------------
 echo Descargando e Instalando Dependencias: ttkbootstrap
 pip install ttkbootstrap || call :Error "Error al instalar ttkbootstrap"
+echo -------------------------------------------
 
 echo Instalacción Exítosa!
 pause
