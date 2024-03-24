@@ -7,7 +7,7 @@ del python-installer.exe
 
 echo -------------------------------------------
 echo Instalando Pip
-python -m ensurepip --upgrade
+python -m ensurepip --upgrade || call :Error "Error al instalar Pip"
 
 echo Descargando e Instalando Dependencias: ttkbootstrap
 pip install ttkbootstrap || call :Error "Error al instalar ttkbootstrap"
