@@ -6,6 +6,7 @@ from ttkbootstrap import Style
 
 # Supported image formats and resolutions
 FORMATOS = ('.jpg', '.jpeg', '.png', '.webp')
+FORMATOS_OUTPUT = ('.jpg', '.jpeg', '.png', '.webp', "mismo")
 
 image_resolutions = [
     "50x50",
@@ -26,7 +27,7 @@ image_resolutions = [
 ]
 
 
-def resize_images(input_folderl: list[str], output_folder: str, resulution: str) -> None:
+def resize_images(input_folderl: list[str], output_folder: str, resulution: str, form="mismo") -> None:
     """ Rescale the images according to the parameters given in the tkinder interface.
 
     :param input_folderl: Paths to file(s) for rescaling
@@ -37,6 +38,9 @@ def resize_images(input_folderl: list[str], output_folder: str, resulution: str)
 
     :param resulution: Resolution desired by user for rescaling the image(s)
     :type resulution: str
+
+    :param form: Format the image(s) output
+    :type form: str
 
     """
     image_done = 0
@@ -60,6 +64,9 @@ def resize_images(input_folderl: list[str], output_folder: str, resulution: str)
                 image = Image.open(input_folder)
                 resized_image = image.resize(
                     (int(target_width), int(target_height)))
+                if form != "mismo":
+                    filename_new, old_form = filename.split(".")
+                    filename = filename_new + form
                 output_path = os.path.join(output_folder, filename)
                 resized_image.save(output_path)
                 image_done += 1
@@ -120,13 +127,19 @@ def make_windows() -> None:
     resolution = ttk.Combobox(
         frame_resolucion, values=image_resolutions, cursor="hand2")
     resolution.grid(row=0, column=0)
+    frame_format = ttk.LabelFrame(frame_resolucion, text="Formato")
+    format_output = ttk.Combobox(
+        frame_format, values=FORMATOS_OUTPUT, cursor="hand2")
+    format_output.grid()
     boton = ttk.Button(frame_resolucion, text="Ajustar", padding=(50, 0, 50, 0), command=lambda: resize_images(
-        origen.get(), destino.get(), resolution.get()), cursor="hand2")
+        origen.get(), destino.get(), resolution.get(), format_output.get()), cursor="hand2")
     frame.pack()
+    format_output.current(0)
     resolution.current(11)
-    boton.grid(row=1, column=0, ipady=10, pady=14)
-    frame_resolucion.grid(row=0, column=1, padx=5)
-    frame_path.grid(row=0, column=0)
+    boton.grid(row=2, column=0, ipady=10, pady=14)
+    frame_resolucion.grid(row=1, padx=5, pady=5)
+    frame_format.grid(row=1)
+    frame_path.grid(row=0)
     windows.mainloop()
 
 
