@@ -4,7 +4,7 @@
 ReSizeMe es una herramienta rápida y fácil de usar para redimensionar imágenes de manera rápida y eficiente.
 Ya sea uno o miles de archivos, podrás redimensionarlas rápida y fácilmente!
 
-![ReSizeMe](image.png)
+![ReSizeMe](https://github.com/EmmanuelMMontesinos/ReSizeMe/assets/97795200/dcadac32-1d49-4f06-be91-f479fa7f8c17)
 
 ## Instalación
 
