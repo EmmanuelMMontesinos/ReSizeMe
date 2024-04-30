@@ -9,6 +9,7 @@ FORMATOS = ('.jpg', '.jpeg', '.png', '.webp')
 FORMATOS_OUTPUT = ('.jpg', '.jpeg', '.png', '.webp', "mismo")
 
 image_resolutions = [
+    "misma",
     "50x50",
     "100x100",
     "200x200",
@@ -25,9 +26,15 @@ image_resolutions = [
     "3840x2160",
     "4096x2160"
 ]
+level_zip = [
+    "misma",
+    "mínima",
+    "normal",
+    "máxima"
+]
 
 
-def resize_images(input_folderl: list[str], output_folder: str, resulution: str, form="mismo") -> None:
+def resize_images(input_folderl: list[str], output_folder: str, resulution: str, form="mismo", zip="misma") -> None:
     """ Rescale the images according to the parameters given in the tkinder interface.
 
     :param input_folderl: Paths to file(s) for rescaling
@@ -44,9 +51,8 @@ def resize_images(input_folderl: list[str], output_folder: str, resulution: str,
 
     """
     image_done = 0
-    resolutions = resulution.split("x")
+
     input_folders = input_folderl.split("*")
-    target_width, target_height = resolutions
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
     for input_folder in input_folders:
@@ -62,13 +68,32 @@ def resize_images(input_folderl: list[str], output_folder: str, resulution: str,
                 items = input_folder.split("/")
                 filename = items[-1]
                 image = Image.open(input_folder)
+                if resulution != "misma":
+                    resolutions = resulution.split("x")
+                    target_width, target_height = resolutions
+                else:
+                    target_width, target_height = image.size
                 resized_image = image.resize(
                     (int(target_width), int(target_height)))
                 if form != "mismo":
                     filename_new, old_form = filename.split(".")
+
                     filename = filename_new + form
+                else:
+                    filename_, form = filename.split(".")
                 output_path = os.path.join(output_folder, filename)
-                resized_image.save(output_path)
+                if zip == "misma":
+                    resized_image.save(output_path)
+                else:
+                    if zip == "mínima":
+                        zip = 100
+                    elif zip == "normal":
+                        zip = 60
+                    elif zip == "máxima":
+                        zip = 35
+                    resized_image.save(
+                        output_path, quality=zip)
+
                 image_done += 1
                 print(f"✔️ {filename} redimensionada\n")
             elif not input_folder.endswith(FORMATOS):
@@ -109,10 +134,12 @@ def make_windows() -> None:
     windows = Tk()
     windows.title("ReSizeMe")
     windows.wm_iconbitmap("icono.ico")
-    windows.resizable(0, 0)
+    windows.resizable(True, True)
     frame = tk.Frame(windows, borderwidth=20, border=10)
     frame_path = ttk.Labelframe(frame, text="Origen y Destino")
-    frame_resolucion = ttk.Labelframe(frame, text="¿Que resolucion quieres?")
+    frame_resolucion = ttk.Labelframe(frame, text="¿Qué resolucion quieres?")
+    frame_zip = ttk.Labelframe(
+        frame_resolucion, text="¿Qué nivel de compresión?")
     style = Style(theme="flatly")
     style.configure("TButton")
     style.theme_use("superhero")
@@ -124,20 +151,26 @@ def make_windows() -> None:
                command=lambda: select_value_directory(destino)).grid(row=3, column=0)
     origen.grid(row=0, column=0)
     destino.grid(row=2, column=0)
+    image_zip = ttk.Combobox(frame_zip,
+                             values=level_zip,
+                             cursor="hand2")
+    image_zip.pack()
     resolution = ttk.Combobox(
-        frame_resolucion, values=image_resolutions, cursor="hand2")
+        frame_resolucion, values=image_resolutions, cursor="hand2",)
     resolution.grid(row=0, column=0)
     frame_format = ttk.LabelFrame(frame_resolucion, text="Formato")
     format_output = ttk.Combobox(
         frame_format, values=FORMATOS_OUTPUT, cursor="hand2")
     format_output.grid()
     boton = ttk.Button(frame_resolucion, text="Ajustar", padding=(50, 0, 50, 0), command=lambda: resize_images(
-        origen.get(), destino.get(), resolution.get(), format_output.get()), cursor="hand2")
+        origen.get(), destino.get(), resolution.get(), format_output.get(), image_zip.get()), cursor="hand2")
     frame.pack()
-    format_output.current(0)
-    resolution.current(11)
-    boton.grid(row=2, column=0, ipady=10, pady=14)
-    frame_resolucion.grid(row=1, padx=5, pady=5)
+    format_output.current(4)
+    image_zip.current(0)
+    resolution.current(0)
+    boton.grid(row=5, column=0, ipady=10, pady=14)
+    frame_resolucion.grid(row=2, padx=5, pady=5)
+    frame_zip.grid(row=3)
     frame_format.grid(row=1)
     frame_path.grid(row=0)
     windows.mainloop()
