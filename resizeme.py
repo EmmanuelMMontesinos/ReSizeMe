@@ -132,6 +132,7 @@ def make_windows() -> None:
     """ Ui for users"""
     print("Programado por @emmanuelmmontesinos")
     windows = Tk()
+    windows.geometry("250x350")
     windows.title("ReSizeMe")
     windows.wm_iconbitmap("icono.ico")
     windows.resizable(True, True)
