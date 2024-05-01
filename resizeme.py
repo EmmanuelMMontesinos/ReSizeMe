@@ -5,11 +5,21 @@ from tkinter import Tk, filedialog, ttk, messagebox, END
 from ttkbootstrap import Style
 
 # Supported image formats and resolutions
-FORMATOS = ('.jpg', '.jpeg', '.png', '.webp')
+FORMATOS = ('.jpg', '.jpeg', '.png', '.webp', '.ico')
 FORMATOS_OUTPUT = ('.jpg', '.jpeg', '.png', '.webp', "mismo")
 
 image_resolutions = [
     "misma",
+    "10%",
+    "20%",
+    "30%",
+    "40%",
+    "50%",
+    "60%",
+    "70%",
+    "80%",
+    "90%",
+    "100%",
     "50x50",
     "100x100",
     "200x200",
@@ -68,11 +78,17 @@ def resize_images(input_folderl: list[str], output_folder: str, resulution: str,
                 items = input_folder.split("/")
                 filename = items[-1]
                 image = Image.open(input_folder)
-                if resulution != "misma":
-                    resolutions = resulution.split("x")
-                    target_width, target_height = resolutions
-                else:
+                if resulution[-1] == "%":
+                    resulution_format = float(resulution[:-1]) / 100
+                    print(resulution)
                     target_width, target_height = image.size
+                    target_width, target_height = target_width * \
+                        resulution_format, target_height * resulution_format
+                elif resulution != "misma":
+                    target_width, target_height = resulution.split("x")
+                elif resulution == "misma":
+                    target_width, target_height = image.size
+
                 resized_image = image.resize(
                     (int(target_width), int(target_height)))
                 if form != "mismo":
