@@ -6,6 +6,8 @@ name = "pypi"
 [packages]
 moviepy = "*"
 ttkbootstrap = "*"
+pillow = "*"
+rembg = "*"
 
 [dev-packages]
 

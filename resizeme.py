@@ -1,5 +1,6 @@
 import os
 from PIL import Image
+from rembg import remove
 import tkinter as tk
 from tkinter import Tk, filedialog, ttk, messagebox, END
 from ttkbootstrap import Style
@@ -44,7 +45,7 @@ level_zip = [
 ]
 
 
-def resize_images(input_folderl: list[str], output_folder: str, resulution: str, form="mismo", zip="misma") -> None:
+def resize_images(input_folderl: list[str], output_folder: str, resulution: str, form="mismo", zip="misma",remove_bg=False) -> None:
     """ Rescale the images according to the parameters given in the tkinder interface.
 
     :param input_folderl: Paths to file(s) for rescaling
@@ -88,9 +89,10 @@ def resize_images(input_folderl: list[str], output_folder: str, resulution: str,
                     target_width, target_height = resulution.split("x")
                 elif resulution == "misma":
                     target_width, target_height = image.size
-
                 resized_image = image.resize(
                     (int(target_width), int(target_height)))
+                if remove_bg == True:
+                    resized_image = remove(resized_image)
                 if form != "mismo":
                     filename_new, old_form = filename.split(".")
 
@@ -144,17 +146,29 @@ def select_value_directory(camp: str) -> None:
     camp.insert(0, new_camp)
 
 
+def change_format(camp: bool,format):
+    check = camp.get()
+    if check == True:
+        format.current(2)
+        format.configure(state="disabled")
+    else:
+        format.configure(state="enabled")
+
+
+
+
 def make_windows() -> None:
     """ Ui for users"""
     print("Programado por @emmanuelmmontesinos")
     windows = Tk()
-    windows.geometry("250x350")
+    windows.geometry("250x400")
     windows.title("ReSizeMe")
     windows.wm_iconbitmap("icono.ico")
     windows.resizable(True, True)
     frame = tk.Frame(windows, borderwidth=20, border=10)
-    frame_path = ttk.Labelframe(frame, text="Origen y Destino")
     frame_resolucion = ttk.Labelframe(frame, text="¿Qué resolucion quieres?")
+    frame_path = ttk.Labelframe(frame_resolucion, text="Origen y Destino")
+    frame_remove = ttk.Labelframe(frame_resolucion, text="¿Eliminar Fondo?")
     frame_zip = ttk.Labelframe(
         frame_resolucion, text="¿Qué nivel de compresión?")
     style = Style(theme="flatly")
@@ -162,9 +176,9 @@ def make_windows() -> None:
     style.theme_use("superhero")
     origen = ttk.Entry(frame_path)
     destino = ttk.Entry(frame_path)
-    ttk.Button(frame_path, text="Imagen/es Origen", padding=(15, 0, 15, 0), cursor="hand2",
+    ttk.Button(frame_path, text="Imagen/es Origen", cursor="hand2",
                command=lambda: select_value(origen)).grid(row=1, column=0)
-    ttk.Button(frame_path, text="Carpeta Destino", padding=(15, 0, 15, 0), cursor="hand2",
+    ttk.Button(frame_path, text="Carpeta Destino", cursor="hand2",
                command=lambda: select_value_directory(destino)).grid(row=3, column=0)
     origen.grid(row=0, column=0)
     destino.grid(row=2, column=0)
@@ -179,17 +193,25 @@ def make_windows() -> None:
     format_output = ttk.Combobox(
         frame_format, values=FORMATOS_OUTPUT, cursor="hand2")
     format_output.grid()
+    value_remove = tk.BooleanVar(value=False)
+    remove_back = ttk.Checkbutton(frame_remove,
+        text="Eliminar Fondo",
+        variable=value_remove,
+        cursor="hand2",
+        command=lambda:change_format(value_remove,format_output))
+    remove_back.grid()
     boton = ttk.Button(frame_resolucion, text="Ajustar", padding=(50, 0, 50, 0), command=lambda: resize_images(
-        origen.get(), destino.get(), resolution.get(), format_output.get(), image_zip.get()), cursor="hand2")
+        origen.get(), destino.get(), resolution.get(), format_output.get(), image_zip.get(),value_remove.get()), cursor="hand2")
     frame.pack()
     format_output.current(4)
     image_zip.current(0)
     resolution.current(0)
-    boton.grid(row=5, column=0, ipady=10, pady=14)
-    frame_resolucion.grid(row=2, padx=5, pady=5)
-    frame_zip.grid(row=3)
-    frame_format.grid(row=1)
-    frame_path.grid(row=0)
+    frame_path.grid(pady=2)
+    frame_resolucion.grid(pady=2)
+    frame_zip.grid(pady=2)
+    frame_format.grid(pady=2)
+    frame_remove.grid(pady=2)
+    boton.grid(column=0, ipady=10, pady=14)
     windows.mainloop()
 
 

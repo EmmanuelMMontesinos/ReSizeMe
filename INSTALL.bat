@@ -10,8 +10,10 @@ echo Instalando Pip
 python -m ensurepip --upgrade || call :Error "Error al instalar Pip"
 
 echo -------------------------------------------
-echo Descargando e Instalando Dependencias: ttkbootstrap
+echo Descargando e Instalando Dependencias: ttkbootstrap, Pillow, Rembg
 pip install ttkbootstrap || call :Error "Error al instalar ttkbootstrap"
+pip install Pillow || call :Error "Error al instalar Pillow"
+pip install Rembg || call :Error "Error al instalar Rembg"
 echo -------------------------------------------
 
 echo Instalacción Exítosa!
