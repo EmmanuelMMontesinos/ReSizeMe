@@ -194,12 +194,12 @@ def make_windows() -> None:
         frame_format, values=FORMATOS_OUTPUT, cursor="hand2")
     format_output.grid()
     value_remove = tk.BooleanVar(value=False)
-    remove_back = ttk.Checkbutton(frame_remove,
-        text="Eliminar Fondo",
+    remove_back = ttk.Checkbutton(frame_format,
+        text="Borrar fondo",
         variable=value_remove,
         cursor="hand2",
         command=lambda:change_format(value_remove,format_output))
-    remove_back.grid()
+    remove_back.grid(pady=2)
     boton = ttk.Button(frame_resolucion, text="Ajustar", padding=(50, 0, 50, 0), command=lambda: resize_images(
         origen.get(), destino.get(), resolution.get(), format_output.get(), image_zip.get(),value_remove.get()), cursor="hand2")
     frame.pack()
