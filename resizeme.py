@@ -38,7 +38,7 @@ image_resolutions = [
     "4096x2160"
 ]
 level_zip = [
-    "misma",
+    "mismo",
     "mínima",
     "normal",
     "máxima"
