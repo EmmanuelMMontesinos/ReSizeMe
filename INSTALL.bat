@@ -13,7 +13,7 @@ echo -------------------------------------------
 echo Descargando e Instalando Dependencias: ttkbootstrap, Pillow, Rembg
 pip install ttkbootstrap || call :Error "Error al instalar ttkbootstrap"
 pip install Pillow || call :Error "Error al instalar Pillow"
-pip install Rembg || call :Error "Error al instalar Rembg"
+pip install Rembg==2.0.55 || call :Error "Error al instalar Rembg"
 echo -------------------------------------------
 
 echo Instalacción Exítosa!
