@@ -22,3 +22,5 @@ ReSizeMe ofrece dos formas de redimensionar imágenes:
 
 2. **Redimensionar imágenes con parámetros personalizados**: Si prefieres ajustar los parámetros de redimensionamiento, puedes seguir el paso anterior y escribir las dimensiones deseadas en el siguiente formato:
 altoxancho Ej -> 621x154.
+O porcentual.
+Ej -> 150%
