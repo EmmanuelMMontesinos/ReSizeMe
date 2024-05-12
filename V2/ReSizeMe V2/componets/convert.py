@@ -6,7 +6,7 @@ import flet as ft
 
 
 def convert(
-    page,
+    output_text,
     input_folderl: list[str],
     output_folder: str,
     resulution: str,
@@ -42,9 +42,9 @@ def convert(
                 input_folder = input_folder[1:]
             if input_folder[0] == "{":
                 input_folder = input_folder[1:]
-            if input_folder.endswith(Options.FORMATS_OUTPUTS):
+            if input_folder.endswith(Options.FORMATS_OUTPUTS.value):
 
-                items = input_folder.split("/")
+                items = input_folder.split("\\")
                 filename = items[-1]
                 image = Image.open(input_folder)
                 if resulution[-1] == "%":
@@ -65,7 +65,7 @@ def convert(
 
                     filename = filename_new + form
                 else:
-                    filename_, form = filename.split(".")
+                    filename_, form_ = filename.split(".")
                 output_path = os.path.join(output_folder, filename)
                 if zip == "misma":
                     resized_image.save(output_path)
@@ -81,13 +81,13 @@ def convert(
 
                 image_done += 1
                 result = ft.Text(f"✔️ {filename} redimensionada\n")
-                page.controls.append(result)
-                page.update()
-            elif not input_folder.endswith(FORMATOS):
+                output_text.controls.append(result)
+                output_text.update()
+            elif not input_folder.endswith(Options.FORMATS_OUTPUTS.value):
                 result=ft.Text(
                     f"Error de Formato {input_folder} no es un formato soportado")
-                page.controls.append(result)
-                page.update()
+                output_text.controls.append(result)
+                output_text.update()
     result = ft.Text(f"Tarea Completada! {image_done} imagen/es ha/n sido guardada/s en {output_folder}")
-    page.controls.append(result)
-    page.update()
+    output_text.controls.append(result)
+    output_text.update()

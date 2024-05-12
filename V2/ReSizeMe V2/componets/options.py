@@ -33,8 +33,7 @@ class Options(Enum):
         '.jpg',
         '.jpeg',
         '.png',
-        '.webp',
-        '.svg'
+        '.webp'
     )
     
     FORMATS_OUTPUTS = (
