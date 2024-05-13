@@ -4,12 +4,10 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-moviepy = "*"
-ttkbootstrap = "*"
-pillow = "*"
-rembg = "*"
+flet = "==0.22.*"
+enum = "==0.4.7"
 
 [dev-packages]
 
 [requires]
-python_version = "3.11"
+python_version = "3.9"
