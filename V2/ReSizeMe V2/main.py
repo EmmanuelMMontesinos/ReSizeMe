@@ -1,6 +1,94 @@
 import flet as ft
 from componets.options import Options
-from componets.convert import convert
+import os
+import zipfile
+from PIL import Image
+from rembg import remove
+
+
+current_dir = os.getcwd()
+
+
+
+def convert(
+    output_text,
+    input_folderl: list[str],
+    output_folder: str,
+    resulution: str,
+    form="mismo",
+    zip="misma",
+    remove_bg=False) -> None:
+    image_done = 0
+
+    input_folders = input_folderl.split("*")
+    if not os.path.exists(output_folder):
+        os.makedirs(output_folder)
+    for input_folder in input_folders:
+        if len(input_folder) > 2:
+            if input_folder[0] == "}":
+                input_folder = input_folder[1:]
+            if input_folder[0] == " ":
+                input_folder = input_folder[1:]
+            if input_folder[0] == "{":
+                input_folder = input_folder[1:]
+            if input_folder.endswith(Options.FORMATS_OUTPUTS.value):
+
+                items = input_folder.split("\\")
+                filename = items[-1]
+                image = Image.open(input_folder)
+                if resulution[-1] == "%":
+                    resulution_format = float(resulution[:-1]) / 100
+                    target_width, target_height = image.size
+                    target_width, target_height = target_width * \
+                        resulution_format, target_height * resulution_format
+                elif resulution != "misma":
+                    target_width, target_height = resulution.split("x")
+                elif resulution == "misma":
+                    target_width, target_height = image.size
+                resized_image = image.resize(
+                    (int(target_width), int(target_height)))
+                if remove_bg == True:
+                    resized_image = remove(resized_image)
+                if form != "mismo":
+                    filename_new, old_form = filename.split(".")
+
+                    filename = filename_new + form
+                else:
+                    filename_, form_ = filename.split(".")
+                output_path = os.path.join(output_folder, filename)
+                if zip == "misma":
+                    resized_image.save(output_path)
+                else:
+                    if zip == "mínima":
+                        zip = 100
+                    elif zip == "normal":
+                        zip = 60
+                    elif zip == "máxima":
+                        zip = 35
+                    resized_image.save(
+                        output_path, quality=zip)
+
+                image_done += 1
+                output_text.controls.append(
+                    ft.OutlinedButton(
+                        icon=ft.icons.CHECK_CIRCLE_ROUNDED,
+                        text=f"✔️ {filename} redimensionada\n",
+                        icon_color="green300"))
+                output_text.update()
+            elif not input_folder.endswith(Options.FORMATS_OUTPUTS.value):
+                output_text.controls.append(
+                    ft.OutlinedButton(
+                        icon=ft.icons.ERROR,
+                        text=f"Error de Formato {input_folder} no es un formato soportado",
+                        icon_color="orange1000"))
+                output_text.update()
+    output_text.controls.append(
+        ft.OutlinedButton(
+            icon=ft.icons.CHECKLIST_OUTLINED,
+            text=f"Tarea Completada! {image_done} imagen/es ha/n sido guardada/s en {output_folder}",
+            icon_color="green1000"))
+    output_text.update()
+
 
 def generate_combox(combox):
     data = []
@@ -85,6 +173,7 @@ def main(page: ft.Page):
             switch_formats.update()
             
     # Path
+    
     path_field = ft.Column()
     file_field = ft.Row()
     dir_field = ft.Row()
@@ -102,17 +191,19 @@ def main(page: ft.Page):
         hint_text="Carpeta salida",
         expand=True)
     
-    button_files = ft.OutlinedButton(
+    button_files = ft.FilledButton(
         icon=ft.icons.IMAGE,
-        icon_color="blue200",
+        icon_color=ft.colors.YELLOW_600,
         text="Seleccionar",
-        on_click= lambda _: serch_files.pick_files(allow_multiple=True)
+        on_click= lambda _: serch_files.pick_files(allow_multiple=True),
+        style=ft.ButtonStyle(bgcolor=ft.colors.GREEN_400)
         )
-    button_dir = ft.OutlinedButton(
+    button_dir = ft.FilledButton(
         icon=ft.icons.DRIVE_FILE_MOVE_RTL,
-        icon_color="blue200",
+        icon_color="yellow600",
         text="Seleccionar",
-        on_click= lambda _: serch_dir.get_directory_path())
+        on_click= lambda _: serch_dir.get_directory_path(),
+        style=ft.ButtonStyle(bgcolor=ft.colors.GREEN_400))
     
 
     # Layout init
@@ -190,7 +281,7 @@ def main(page: ft.Page):
         expand=True,
         adaptive= True,
         style=ft.ButtonStyle(
-            bgcolor=ft.colors.GREEN_200,)
+            bgcolor=ft.colors.GREEN_400,)
         )
     
     # Info Output
@@ -262,6 +353,7 @@ def main(page: ft.Page):
     page.title = "ReSizeME V2"
     page.window_height = 750
     page.window_width = 550
-    # page.window_resizable = False
+    page.window_resizable = False
     page.update()
-ft.app(target=main)
+
+ft.app(target=main, assets_dir=".\\assests")

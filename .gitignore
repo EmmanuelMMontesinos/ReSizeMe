@@ -1,1 +1,6 @@
 resizeme.spec
+V2/ReSizeMe_V2/__pypackages__/cv2/config.py
+V2/ReSizeMe_V2/__pypackages__/cv2/config-3.py
+V2/ReSizeMe_V2/componets/__pycache__/convert.cpython-39.pyc
+V2/ReSizeMe_V2/componets/__pycache__/opencv.cpython-39.pyc
+V2/ReSizeMe_V2/componets/__pycache__/options.cpython-39.pyc
