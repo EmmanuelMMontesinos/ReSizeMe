@@ -4,6 +4,8 @@
 ReSizeMe es una herramienta rápida y fácil de usar para redimensionar imágenes de manera rápida y eficiente.
 Ya sea uno o miles de archivos, podrás redimensionarlas rápida y fácilmente!
 
+Ahora con Flet!
+
 ![ReSizeMe](image.png)
 
 ## Instalación
