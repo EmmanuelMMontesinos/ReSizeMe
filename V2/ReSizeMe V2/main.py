@@ -98,6 +98,7 @@ def generate_combox(combox):
     return data
 
 def main(page: ft.Page):
+    block_format = False
     def send_info(e):
         format_out = "mismo"
         compres = "misma"
@@ -143,9 +144,10 @@ def main(page: ft.Page):
                     combox.disabled = True
                     combox.update()
             else:
-                for combox in option[1:]:            
-                    combox.disabled =False
-                    combox.update()
+                for combox in option[1:]:
+                    if combox.label != "Formatos Posibles" or not block_format:
+                        combox.disabled =False
+                        combox.update()
     
     def give_files(e):
         for images in e.files:
@@ -159,18 +161,21 @@ def main(page: ft.Page):
         input_dir.update()
         
     def change_bg(e):
+        nonlocal block_format
         if switch_bg.value:
             combox_formats.value = Options.FORMATS.value[2]
             combox_formats.disabled = True
             combox_formats.update()
             switch_formats.disabled = True
             switch_formats.update()
+            block_format = True
         else:
             if switch_formats.value:     
                 combox_formats.disabled = False
                 combox_formats.update()
             switch_formats.disabled = False
             switch_formats.update()
+            block_format = False
             
     # Path
     
