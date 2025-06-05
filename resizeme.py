@@ -5,6 +5,8 @@ import tkinter as tk
 from tkinter import Tk, filedialog, ttk, messagebox, END
 from ttkbootstrap import Style
 
+from Package_Update.Update import UpdateApp
+
 # Supported image formats and resolutions
 FORMATOS = ('.jpg', '.jpeg', '.png', '.webp', '.ico')
 FORMATOS_OUTPUT = ('.jpg', '.jpeg', '.png', '.webp', "mismo")
@@ -217,4 +219,18 @@ def make_windows() -> None:
 
 if __name__ == "__main__":
     print("Iniciando ReSizeMe.\nSi es la primera vez que se abre este programa, puede tardar un poco en cargar.\n")
+    app_name = "ReSizeMe"
+    app_version = "1.5.0"
+    url_repo = "https://github.com/EmmanuelMMontesinos/ReSizeMe"
+    update = UpdateApp(app_name, app_version, url_repo)
+
+    if update.check_update():
+        case_update = input("Hay una nueva versión disponible. ¿Desea actualizar? (s/n): ")
+        match case_update.lower():
+            case "s":
+                update.update()
+            case "n":
+                print("Gracias por usar ReSizeMe.")
+
+
     make_windows()
