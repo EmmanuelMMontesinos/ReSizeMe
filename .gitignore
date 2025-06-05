@@ -5,3 +5,4 @@ V2/ReSizeMe_V2/componets/__pycache__/convert.cpython-39.pyc
 V2/ReSizeMe_V2/componets/__pycache__/opencv.cpython-39.pyc
 V2/ReSizeMe_V2/componets/__pycache__/options.cpython-39.pyc
 .venv/
+componets/__pycache__/*
