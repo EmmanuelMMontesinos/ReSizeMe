@@ -5,10 +5,17 @@ import zipfile
 from PIL import Image
 from rembg import remove
 
+from Package_Update.Update import UpdateApp
+
 
 current_dir = os.getcwd()
 
+# Actualización
+name_app = "ReSizeMe"
+version_app = "2.0.1"
+url_repository = "https://github.com/EmmanuelMMontesinos/ReSizeMe"
 
+update_app = UpdateApp(name_app, version_app, url_repository)
 
 def convert(
     output_text,
@@ -98,6 +105,46 @@ def generate_combox(combox):
     return data
 
 def main(page: ft.Page):
+    def check_and_prompt_update():
+        try:
+            if update_app.check_update():
+                dialog = ft.AlertDialog(
+                    title=ft.Text("Actualización disponible"),
+                    content=ft.Text("Hay una nueva versión disponible. ¿Deseas actualizar?"),
+                    actions=[
+                        ft.TextButton("Sí", on_click=lambda _: perform_update(dialog)),
+                        ft.TextButton("No", on_click=lambda _: close_dialog(dialog)),
+                    ],
+                    actions_alignment="center",
+                )
+                page.dialog = dialog
+                dialog.open = True
+                page.update()
+        except Exception as e:
+            print(f"Error al verificar la actualización: {e}")
+
+    # Función para realizar la actualización
+    def perform_update(dialog):
+        try:
+            update_app.update()
+            close_dialog(dialog)
+            ft.AlertDialog(
+                title=ft.Text("Actualización completada"),
+                content=ft.Text("La aplicación se ha actualizado correctamente."),
+                actions=[ft.TextButton("Aceptar", on_click=lambda _: dialog.close())],
+            ).open = True
+            page.update()
+        except Exception as e:
+            ft.AlertDialog(
+                title=ft.Text("Error"),
+                content=ft.Text(f"Error al actualizar: {e}"),
+                actions=[ft.TextButton("Aceptar", on_click=lambda _: dialog.close())],
+            ).open = True
+            page.update()
+    def close_dialog(dialog):
+        dialog.open = False
+        page.update()
+
     block_format = False
     def send_info(e):
         format_out = "mismo"
@@ -176,7 +223,9 @@ def main(page: ft.Page):
             switch_formats.disabled = False
             switch_formats.update()
             block_format = False
-            
+
+
+    check_and_prompt_update()
     # Path
     
     path_field = ft.Column()
