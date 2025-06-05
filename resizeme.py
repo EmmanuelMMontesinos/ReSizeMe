@@ -100,7 +100,7 @@ def resize_images(input_folderl: list[str], output_folder: str, resulution: str,
                 else:
                     filename_, form = filename.split(".")
                 output_path = os.path.join(output_folder, filename)
-                if zip == "misma":
+                if zip == "mismo":
                     resized_image.save(output_path)
                 else:
                     if zip == "mínima":
@@ -159,7 +159,7 @@ def change_format(camp: bool,format):
 
 def make_windows() -> None:
     """ Ui for users"""
-    print("Programado por @emmanuelmmontesinos")
+    print("Programado por @emmanuelmmontesinos\nVisita mi web: emmanuelmmontesinos.dev")
     windows = Tk()
     windows.geometry("250x400")
     windows.title("ReSizeMe")
@@ -216,4 +216,5 @@ def make_windows() -> None:
 
 
 if __name__ == "__main__":
+    print("Iniciando ReSizeMe.\nSi es la primera vez que se abre este programa, puede tardar un poco en cargar.\n")
     make_windows()

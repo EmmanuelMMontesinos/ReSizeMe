@@ -1,5 +1,0 @@
-flet==0.22.*
-pillow==10.3.*
-rembg==2.0.*
-PyMatting==1.1.*
-numba==0.59.*
