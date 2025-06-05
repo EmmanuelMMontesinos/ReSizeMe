@@ -1,2 +1,2 @@
 @echo off 
-python resizeme.py
+python main.py
