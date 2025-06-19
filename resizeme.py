@@ -7,7 +7,7 @@ from ttkbootstrap import Style
 
 from Package_Update.Update import UpdateApp
 
-# Supported image formats and resolutions
+# Formato de imagenes soportados y formato de salida
 FORMATOS = ('.jpg', '.jpeg', '.png', '.webp', '.ico')
 FORMATOS_OUTPUT = ('.jpg', '.jpeg', '.png', '.webp', "mismo")
 
@@ -48,7 +48,7 @@ level_zip = [
 
 
 def resize_images(input_folderl: list[str], output_folder: str, resulution: str, form="mismo", zip="misma",remove_bg=False) -> None:
-    """ Rescale the images according to the parameters given in the tkinder interface.
+    """ Redimensiona las imagenes segun los parametros dados en la interfaz tkinder.
 
     :param input_folderl: Paths to file(s) for rescaling
     :type input_folderl: list[str]
@@ -56,12 +56,20 @@ def resize_images(input_folderl: list[str], output_folder: str, resulution: str,
     :param output_folder: Path where to save the rescaled file(s)
     :type output_folder: str
 
-    :param resulution: Resolution desired by user for rescaling the image(s)
+    :param resulution: Resolucion deseada por el usuario para redimensionar las imagenes
     :type resulution: str
 
-    :param form: Format the image(s) output
+    :param form: Formato de la imagen de salida
     :type form: str
 
+    :param zip: Nivel de compresion de la imagen
+    :type zip: str
+
+    :param remove_bg: Si se desea eliminar el fondo de la imagen
+    :type remove_bg: bool
+
+    :return: None
+    :rtype: None
     """
     image_done = 0
 
@@ -124,10 +132,13 @@ def resize_images(input_folderl: list[str], output_folder: str, resulution: str,
 
 
 def select_value(camp: tuple[str]) -> None:
-    """ Update source images for rescaling
+    """ Actualiza las imagenes de origen para redimensionar
 
-    :param camp: Images previously selected
+    :param camp: Imagenes previamente seleccionadas
     :type camp: tuple[str]
+
+    :return: None
+    :rtype: None
     """
     new_camp = filedialog.askopenfilenames()
     new_camp_int = []
@@ -138,17 +149,28 @@ def select_value(camp: tuple[str]) -> None:
 
 
 def select_value_directory(camp: str) -> None:
-    """ Update the desired directory to store the rescaled images
+    """ Actualiza la carpeta de destino para guardar las imagenes redimensionadas
 
-    :param camp: Path to the previously selected folder
+    :param camp: Carpeta de destino
     :type camp: str
+
+    :return: None
+    :rtype: None
     """
     new_camp = filedialog.askdirectory()
     camp.delete(0, END)
     camp.insert(0, new_camp)
 
 
-def change_format(camp: bool,format):
+def change_format(camp: bool,format: ttk.Combobox):
+    """ Cambia el formato de la imagen de salida
+    :param camp: Si se desea eliminar el fondo de la imagen
+    :type camp: bool
+    :param format: Formato de la imagen de salida
+    :type format: ttk.Combobox
+    :return: None
+    :rtype: None
+    """
     check = camp.get()
     if check == True:
         format.current(2)
@@ -160,7 +182,7 @@ def change_format(camp: bool,format):
 
 
 def make_windows() -> None:
-    """ Ui for users"""
+    """ Crea la ventana principal de la aplicacion """
     print("Programado por @emmanuelmmontesinos\nVisita mi web: emmanuelmmontesinos.dev")
     windows = Tk()
     windows.geometry("250x400")
