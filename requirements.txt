@@ -21,7 +21,7 @@ packaging==25.0
 pillow==10.4.0
 platformdirs==4.3.8
 pooch==1.8.2
-protobuf==6.31.1
+protobuf==6.33.5
 PyMatting==1.1.14
 pyreadline3==3.5.4
 referencing==0.36.2
