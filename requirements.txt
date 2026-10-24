@@ -1,5 +1,5 @@
 attrs==25.3.0
-certifi==2025.4.26
+certifi==2026.10.19
 charset-normalizer==3.4.2
 colorama==0.4.6
 coloredlogs==15.0.1
@@ -18,7 +18,7 @@ numpy==2.2.6
 onnxruntime==1.22.0
 opencv-python-headless==4.11.0.86
 packaging==25.0
-pillow==12.3.0
+pillow==13.0.0
 platformdirs==4.3.8
 pooch==1.8.2
 protobuf==6.33.5
